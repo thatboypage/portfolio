@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BeamTwin | Richard Olanite</title>
+<meta name="description" content="Finite element model written from scratch, a physics-hybrid neural surrogate, and a Bayesian detector that locates damage from vibration readings. Deployed with a live demo.">
+<meta property="og:title" content="BeamTwin | Richard Olanite">
+<meta property="og:description" content="Finite element model written from scratch, a physics-hybrid neural surrogate, and a Bayesian detector that locates damage from vibration readings. Deployed with a live demo.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,600..800&family=IBM+Plex+Sans:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/style.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M4 6v20M4 16 C12 16 20 14 28 8' stroke='%2318232c' stroke-width='3' fill='none' stroke-linecap='round'/%3E%3C/svg%3E">
+</head>
+<body>
+<header class="site-head"><div class="wrap">
+  <a class="wordmark" href="../index.html">Richard Olanite</a>
+  <nav class="site-nav" aria-label="Main">
+    <a href="../index.html#work">Work</a>
+    <a href="../index.html#about">About</a>
+    <a href="../index.html#experience">Experience</a>
+    <a href="../index.html#writing">Writing</a>
+    <a href="../index.html#contact">Contact</a>
+  </nav>
+</div></header>
+<main class="case"><div class="wrap">
+<div class="case-head">
+  <a class="back" href="../index.html#work">Back to all work</a>
+  <h1>BeamTwin: a digital twin that finds damage in beams from their vibration</h1>
+  <p class="lede">When a beam cracks it gets less stiff, and its natural frequencies drop. BeamTwin works backwards from those frequencies to say where the damage is and how bad it is.</p>
+  <div class="facts"><div><strong>0.001%</strong><span>FEM vs textbook frequency error, first four modes</span></div><div><strong>55×</strong><span>lower surrogate error with physics built in</span></div><div><strong>0.3%</strong><span>median location error, low-noise sensors</span></div><div><strong>0.03 s</strong><span>per damage estimate</span></div></div>
+  <div class="links"><a class="btn primary" href="https://github.com/thatboypage/beamtwin">Code on GitHub</a><a class="btn" href="https://beamtwin.onrender.com">Live demo</a></div>
+</div>
+<section class="prose"><h2>The problem</h2><p>Vibration-based structural health monitoring rests on a simple idea: damage lowers stiffness, and lower stiffness lowers natural frequencies. Turning a few measured frequencies back into a damage location is an inverse problem, and solving it needs thousands of simulations per estimate.</p><p>A finite element model is accurate but too slow to run thousands of times on demand. The question was whether a neural network could stand in for it without losing the small frequency shifts that damage causes (about 1.5% on average).</p></section>
+<section><h2>What I did</h2><ol><li>Wrote an Euler-Bernoulli beam finite element solver from scratch and validated it against textbook formulas: tip deflection matches PL³/3EI exactly, and the first four natural frequencies agree to within 0.001%.</li><li>Trained two identical networks on the solver&#x27;s results. The plain one learns everything from 7 inputs. The hybrid one gets the healthy frequencies from the exact cantilever formula and learns only the damage-induced ratio, which dimensional analysis shows depends on just 2 inputs.</li><li>Built a Bayesian detector that scores 18,281 candidate damage states in one batch with the surrogate, and reports the most likely location and severity with 90% ranges and the probability that the beam is damaged at all.</li><li>Served it with FastAPI and Docker, tested with pytest in GitHub Actions, and deployed a web demo where you hide damage in a beam and watch the twin find it.</li></ol></section>
+<section><h2>Results</h2><figure class="plot"><img src="../assets/fig/beam-surrogate.jpg" alt="Predicted vs true damage-induced frequency drop on 600 unseen beams. The hybrid surrogate (physics built in) sits on the diagonal." loading="lazy"><figcaption>Predicted vs true damage-induced frequency drop on 600 unseen beams. The hybrid surrogate (physics built in) sits on the diagonal.</figcaption></figure><figure class="plot"><img src="../assets/fig/beam-detection.jpg" alt="Probability maps of damage location and severity from noisy vibration data: an easy case near the clamp, and a harder one near the free tip, where the estimate is close but slightly off." loading="lazy"><figcaption>Probability maps of damage location and severity from noisy vibration data: an easy case near the clamp, and a harder one near the free tip, where the estimate is close but slightly off.</figcaption></figure><div class="table-scroll"><table><thead><tr><th scope="col"></th><th class="num" scope="col">Plain network</th><th class="num" scope="col">Hybrid (physics + network)</th></tr></thead><tbody><tr><td>Mean frequency error</td><td class="num">0.38–0.42%</td><td class="num">0.006–0.008%</td></tr><tr><td>Worst frequency error</td><td class="num">2.1–2.8%</td><td class="num">0.04–0.06%</td></tr><tr><td>Signal-to-error ratio</td><td class="num">3–4</td><td class="num">190–240</td></tr></tbody></table></div><p class="prose" style="color:var(--ink-2);font-size:.92rem;margin-top:10px">Test set: 600 unseen beams. Damage lowers frequencies by about 1.5% on average, so the plain network&#x27;s error is too large to see it reliably.</p><div class="table-scroll"><table><thead><tr><th scope="col">Sensor noise</th><th class="num" scope="col">Low</th><th class="num" scope="col">Medium</th><th class="num" scope="col">High</th></tr></thead><tbody><tr><td>Location error, median</td><td class="num">0.3% of length</td><td class="num">0.5%</td><td class="num">1.3%</td></tr><tr><td>Damaged beams detected</td><td class="num">100%</td><td class="num">98%</td><td class="num">100%</td></tr><tr><td>False alarms on healthy beams</td><td class="num">0%</td><td class="num">4%</td><td class="num">32%</td></tr></tbody></table></div><p class="prose" style="color:var(--ink-2);font-size:.92rem;margin-top:10px">Detector accuracy on 200 damaged and 50 healthy simulated beams per noise level.</p></section>
+<section><h2>Limitations</h2><ul><li>All results so far use simulated data. Validation on a physical clamped steel strip is the next step.</li><li>Uniform beams and a single damage zone only. The detector assumes geometry and material are known exactly.</li><li>With noisy sensors (±0.5% frequencies), about a third of healthy beams raise a false alarm.</li><li>The surrogate is only valid inside its training ranges (0.5–2 m long, metals, up to 50% stiffness loss).</li></ul></section>
+<div class="next"><a href="filter-rul.html">Next project: Filter remaining life</a></div>
+</div></main>
+<footer class="site-foot"><div class="wrap">
+  Richard Olamide Olanite, Lagos, Nigeria. Code for every project is public on <a href="https://github.com/thatboypage">GitHub</a>.
+</div></footer>
+
+</body>
+</html>

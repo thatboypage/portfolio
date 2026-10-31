@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Filter remaining life | Richard Olanite</title>
+<meta name="description" content="A physics-informed clogging model predicts remaining useful life from right-censored data, then turns its uncertainty into replace-or-wait maintenance decisions.">
+<meta property="og:title" content="Filter remaining life | Richard Olanite">
+<meta property="og:description" content="A physics-informed clogging model predicts remaining useful life from right-censored data, then turns its uncertainty into replace-or-wait maintenance decisions.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,600..800&family=IBM+Plex+Sans:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/style.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M4 6v20M4 16 C12 16 20 14 28 8' stroke='%2318232c' stroke-width='3' fill='none' stroke-linecap='round'/%3E%3C/svg%3E">
+</head>
+<body>
+<header class="site-head"><div class="wrap">
+  <a class="wordmark" href="../index.html">Richard Olanite</a>
+  <nav class="site-nav" aria-label="Main">
+    <a href="../index.html#work">Work</a>
+    <a href="../index.html#about">About</a>
+    <a href="../index.html#experience">Experience</a>
+    <a href="../index.html#writing">Writing</a>
+    <a href="../index.html#contact">Contact</a>
+  </nav>
+</div></header>
+<main class="case"><div class="wrap">
+<div class="case-head">
+  <a class="back" href="../index.html#work">Back to all work</a>
+  <h1>Predicting when industrial filters will clog, when most never failed</h1>
+  <p class="lede">Filters fail when their pressure drop reaches 600 Pa. In the training data only 5 of 50 were allowed to fail; the rest were replaced on schedule. I modelled how the pressure rises instead of guessing failure times.</p>
+  <div class="facts"><div><strong>15.5 s</strong><span>RMSE on the official test set (vs 36.4 s)</span></div><div><strong>58%</strong><span>lower error than gradient boosting</span></div><div><strong>43%</strong><span>lower simulated maintenance cost</span></div><div><strong>2 vs 5</strong><span>in-service failures vs historical schedule</span></div></div>
+  <div class="links"><a class="btn primary" href="https://github.com/thatboypage/industrial-filter-predictive-maintenance">Code on GitHub</a></div>
+</div>
+<section class="prose"><h2>The problem</h2><p>Predictive maintenance needs remaining useful life. But when parts are replaced before they fail, their failure times are hidden (right-censored). Treating each replacement as a failure, the usual shortcut, teaches a model that filters die far earlier than they do.</p><p>My first version of this project fell into exactly that trap, and later into target leakage. I retired it and rebuilt the approach from the physics. Both versions are kept in the repository.</p></section>
+<section><h2>What I did</h2><ol><li>Censoring hides when filters fail, but not how their pressure rises. So every training trajectory is fully usable if you model the degradation signal instead of the labels.</li><li>Modelled pressure against cumulative dust mass as a smooth transition from depth filtration to cake filtration, so that at high load it becomes linear in deposited mass, as cake-filtration theory predicts. Population parameters are fitted on all 50 censored trajectories; each filter gets its own onset and rate.</li><li>For a new filter, inferred its parameters from its own history (MAP estimate), solved for the mass at which pressure reaches 600 Pa, and converted that to time.</li><li>Chose the one tuned setting with a label-free check on the training set. The test set was used once.</li><li>Turned predictions into a replace-or-wait rule using calibrated uncertainty, and priced it against the plant&#x27;s historical schedule.</li></ol></section>
+<section><h2>Results</h2><figure class="plot"><img src="../assets/fig/rul-comparison.jpg" alt="Test-set error for each model, with 95% bootstrap intervals." loading="lazy"><figcaption>Test-set error for each model, with 95% bootstrap intervals.</figcaption></figure><figure class="plot"><img src="../assets/fig/rul-costs.jpg" alt="Long-run maintenance cost per 100 s of operation for each decision policy (failure costs 10× a planned change)." loading="lazy"><figcaption>Long-run maintenance cost per 100 s of operation for each decision policy (failure costs 10× a planned change).</figcaption></figure><div class="table-scroll"><table><thead><tr><th scope="col">Model</th><th class="num" scope="col">RMSE (s)</th><th class="num" scope="col">95% CI</th><th class="num" scope="col">Median % error</th></tr></thead><tbody><tr class="best"><td>Physics-informed degradation model</td><td class="num">15.5</td><td class="num">9.9–20.6</td><td class="num">21%</td></tr><tr><td>Hybrid: physics-imputed lives + gradient boosting</td><td class="num">19.2</td><td class="num">13.2–24.3</td><td class="num">21%</td></tr><tr><td>Gradient boosting, replacement treated as failure</td><td class="num">36.4</td><td class="num">26.5–45.2</td><td class="num">88%</td></tr><tr><td>Weibull survival model, no sensor data</td><td class="num">62.9</td><td class="num">52.3–73.0</td><td class="num">136%</td></tr></tbody></table></div><p class="prose" style="color:var(--ink-2);font-size:.92rem;margin-top:10px">Official test set, 50 filters. A leave-one-filter-out check on the training set agrees: 13.3 s vs 40.8 s.</p></section>
+<section><h2>Limitations</h2><ul><li>Coarse dust is the weak point: RMSE 26.7 s vs 4.6 s for fine dust, because training never saw coarse-dust filters near failure.</li><li>Uncertainty is under-calibrated: nominal 90% intervals cover 62% of test cases even after conformal calibration.</li><li>A simple pressure alarm set from the 5 recorded failures does almost as well on cost (1.43 vs 1.37). The model&#x27;s advantage is the remaining-life estimate, which the alarm cannot give.</li><li>This is a laboratory benchmark with assumed cost ratios, so the savings are simulated, not plant savings.</li></ul></section>
+<div class="next"><a href="anomaly-twin.html">Next project: Anomaly detection twin</a></div>
+</div></main>
+<footer class="site-foot"><div class="wrap">
+  Richard Olamide Olanite, Lagos, Nigeria. Code for every project is public on <a href="https://github.com/thatboypage">GitHub</a>.
+</div></footer>
+
+</body>
+</html>

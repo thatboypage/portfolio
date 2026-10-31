@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>KW51 railway bridge | Richard Olanite</title>
+<meta name="description" content="15 months of measured data from the KW51 steel railway bridge in Leuven. A temperature model learned before a retrofit reveals what the retrofit actually changed.">
+<meta property="og:title" content="KW51 railway bridge | Richard Olanite">
+<meta property="og:description" content="15 months of measured data from the KW51 steel railway bridge in Leuven. A temperature model learned before a retrofit reveals what the retrofit actually changed.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,600..800&family=IBM+Plex+Sans:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/style.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M4 6v20M4 16 C12 16 20 14 28 8' stroke='%2318232c' stroke-width='3' fill='none' stroke-linecap='round'/%3E%3C/svg%3E">
+</head>
+<body>
+<header class="site-head"><div class="wrap">
+  <a class="wordmark" href="../index.html">Richard Olanite</a>
+  <nav class="site-nav" aria-label="Main">
+    <a href="../index.html#work">Work</a>
+    <a href="../index.html#about">About</a>
+    <a href="../index.html#experience">Experience</a>
+    <a href="../index.html#writing">Writing</a>
+    <a href="../index.html#contact">Contact</a>
+  </nav>
+</div></header>
+<main class="case"><div class="wrap">
+<div class="case-head">
+  <a class="back" href="../index.html#work">Back to all work</a>
+  <h1>Separating temperature from structural change on a real railway bridge</h1>
+  <p class="lede">Temperature moves a bridge&#x27;s natural frequencies as much as damage or repair does. Before anyone can say what a repair did, temperature has to be taken out.</p>
+  <div class="facts"><div><strong>15 months</strong><span>of hourly measured data</span></div><div><strong>+2.1%</strong><span>retrofit effect on mode 6, at fixed temperature</span></div><div><strong>½</strong><span>alarm band width for three of five modes</span></div><div><strong>98%</strong><span>post-retrofit days flagged (was 0%)</span></div></div>
+  <div class="links"><a class="btn primary" href="https://github.com/thatboypage/kw51-bridge-monitoring">Code on GitHub</a></div>
+</div>
+<section class="prose"><h2>The problem</h2><p>KW51 is a steel bowstring arch railway bridge between Leuven and Brussels, monitored by KU Leuven from 2018 to 2020. Damage was found at its connections, and the bridge was strengthened in 2019.</p><p>Steel softens as it warms and stiffens sharply when it freezes, so the raw frequencies swing with the seasons. On a simple alarm chart, that swing hides the retrofit entirely for some modes.</p></section>
+<section><h2>What I did</h2><ol><li>Used the five vibration modes tracked at least 80% of the time in every period, and the steel deck temperature.</li><li>For each mode, modelled frequency as a linear function of temperature plus an extra stiffening term below a freezing knot. The model and knot were chosen by blocked cross-validation on the pre-retrofit months only, so nothing after the retrofit influenced the choice.</li><li>Applied the pre-retrofit model unchanged during and after the works. The mean post-retrofit residual is the retrofit&#x27;s effect at a fixed temperature, with bootstrap intervals.</li><li>Compared alarm charts on raw and temperature-compensated frequencies.</li></ol></section>
+<section><h2>Results</h2><figure class="plot"><img src="../assets/fig/kw51-temperature.jpg" alt="Frequency against steel deck temperature for modes 6 and 13. Frequencies fall as the steel warms and jump below about 1 °C; the retrofit shifts the whole curve." loading="lazy"><figcaption>Frequency against steel deck temperature for modes 6 and 13. Frequencies fall as the steel warms and jump below about 1 °C; the retrofit shifts the whole curve.</figcaption></figure><figure class="plot"><img src="../assets/fig/kw51-chart.jpg" alt="Alarm chart for mode 13. Raw frequencies never flag the retrofit; compensated ones flag 98% of post-retrofit days." loading="lazy"><figcaption>Alarm chart for mode 13. Raw frequencies never flag the retrofit; compensated ones flag 98% of post-retrofit days.</figcaption></figure></section>
+<section><h2>Limitations</h2><ul><li>A single freezing knot cannot follow a multi-day cold spell in January 2019; that spike causes most of the remaining false-alarm days.</li><li>The confidence intervals cover measurement noise, not model error. For the noisier modes the estimate moves by up to 0.18 percentage points between comparison windows.</li><li>KW51 is an established benchmark and its authors have studied these effects. This project reproduces that kind of analysis independently and adds per-mode, temperature-adjusted effect sizes with uncertainty.</li></ul></section>
+<div class="next"><a href="crack-segmentation.html">Next project: Crack segmentation</a></div>
+</div></main>
+<footer class="site-foot"><div class="wrap">
+  Richard Olamide Olanite, Lagos, Nigeria. Code for every project is public on <a href="https://github.com/thatboypage">GitHub</a>.
+</div></footer>
+
+</body>
+</html>

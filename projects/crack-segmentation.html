@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Crack segmentation | Richard Olanite</title>
+<meta name="description" content="A U-Net finds cracks in concrete photos and turns them into length and width. The engineering question: under what photo conditions is the width reliable enough for inspection?">
+<meta property="og:title" content="Crack segmentation | Richard Olanite">
+<meta property="og:description" content="A U-Net finds cracks in concrete photos and turns them into length and width. The engineering question: under what photo conditions is the width reliable enough for inspection?">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,600..800&family=IBM+Plex+Sans:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/style.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M4 6v20M4 16 C12 16 20 14 28 8' stroke='%2318232c' stroke-width='3' fill='none' stroke-linecap='round'/%3E%3C/svg%3E">
+</head>
+<body>
+<header class="site-head"><div class="wrap">
+  <a class="wordmark" href="../index.html">Richard Olanite</a>
+  <nav class="site-nav" aria-label="Main">
+    <a href="../index.html#work">Work</a>
+    <a href="../index.html#about">About</a>
+    <a href="../index.html#experience">Experience</a>
+    <a href="../index.html#writing">Writing</a>
+    <a href="../index.html#contact">Contact</a>
+  </nav>
+</div></header>
+<main class="case"><div class="wrap">
+<div class="case-head">
+  <a class="back" href="../index.html#work">Back to all work</a>
+  <h1>Measuring concrete crack width from photographs</h1>
+  <p class="lede">Design codes judge cracks by width (Eurocode 2 recommends about 0.3 mm). So instead of asking only whether a model finds cracks, I asked whether it can measure them well enough for an inspector.</p>
+  <div class="facts"><div><strong>0.74</strong><span>Dice on held-out photos (95% CI 0.71–0.77)</span></div><div><strong>0.77</strong><span>Dice on an unseen concrete dataset</span></div><div><strong>79%</strong><span>test photos leaking into training in the official split</span></div><div><strong>12 px</strong><span>minimum crack width for ±25% accuracy</span></div></div>
+  <div class="links"><a class="btn primary" href="https://github.com/thatboypage/concrete-crack-segmentation">Code on GitHub</a></div>
+</div>
+<section class="prose"><h2>The problem</h2><p>Crack segmentation papers usually report overlap scores. Inspectors need widths in millimetres, and a model that draws every crack a few pixels too wide can score well while being useless for that.</p></section>
+<section><h2>What I did</h2><ol><li>Traced the 9,159 images of CrackSeg9k back to about 1,635 original photographs, and found that 79% of the official test photos have crops in the training set. Re-split by original photograph.</li><li>Trained a U-Net with a ResNet-34 encoder, and tested on held-out photos and on three datasets never used in training (concrete, asphalt, tiles).</li><li>Converted predicted outlines into crack length and width, compared against the labels, and simulated camera distance by resizing to find where width becomes reliable.</li></ol></section>
+<section><h2>Results</h2><figure class="plot"><img src="../assets/fig/crack-resolution.jpg" alt="Left: predicted against true crack width at six image scales; thin cracks come out too wide. Right: the width error stays within ±25% only above about 12 px." loading="lazy"><figcaption>Left: predicted against true crack width at six image scales; thin cracks come out too wide. Right: the width error stays within ±25% only above about 12 px.</figcaption></figure><figure class="plot"><img src="../assets/fig/crack-width.jpg" alt="Predicted vs labelled crack width." loading="lazy"><figcaption>Predicted vs labelled crack width.</figcaption></figure></section>
+<section><h2>Limitations</h2><ul><li>Thin cracks are always drawn 2–4 px too wide, so width is reliable only above about 12 px: about 7 cm from the wall with a 12 MP phone camera, for a 0.3 mm crack.</li><li>The model does not transfer to new materials: Dice 0.60 on asphalt and 0.29 on ceramic tiles.</li><li>Width &#x27;truth&#x27; is the dataset labels, whose style varies by source. Field validation with hand-measured cracks is in progress.</li></ul></section>
+<div class="next"><a href="beamtwin.html">Next project: BeamTwin</a></div>
+</div></main>
+<footer class="site-foot"><div class="wrap">
+  Richard Olamide Olanite, Lagos, Nigeria. Code for every project is public on <a href="https://github.com/thatboypage">GitHub</a>.
+</div></footer>
+
+</body>
+</html>

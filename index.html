@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Richard Olanite | Machine learning engineer for physical systems</title>
+<meta name="description" content="Machine learning engineer and mechanical engineer. Physics-informed ML for predictive maintenance, anomaly detection and structural health monitoring.">
+<meta property="og:title" content="Richard Olanite | Machine learning engineer for physical systems">
+<meta property="og:description" content="Machine learning engineer and mechanical engineer. Physics-informed ML for predictive maintenance, anomaly detection and structural health monitoring.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,600..800&family=IBM+Plex+Sans:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M4 6v20M4 16 C12 16 20 14 28 8' stroke='%2318232c' stroke-width='3' fill='none' stroke-linecap='round'/%3E%3C/svg%3E">
+</head>
+<body>
+<header class="site-head"><div class="wrap">
+  <a class="wordmark" href="index.html">Richard Olanite</a>
+  <nav class="site-nav" aria-label="Main">
+    <a href="index.html#work">Work</a>
+    <a href="index.html#about">About</a>
+    <a href="index.html#experience">Experience</a>
+    <a href="index.html#writing">Writing</a>
+    <a href="index.html#contact">Contact</a>
+  </nav>
+</div></header>
+<main>
+<div class="wrap hero">
+  <h1>I build models that understand the machines they monitor.</h1>
+  <p class="lede">Machine learning engineer and mechanical engineer in Lagos. I combine physics with ML for predictive maintenance, anomaly detection and structural health monitoring, and I report every result with its baseline and its limits.</p>
+  <div class="actions">
+    <a class="btn primary" href="#work">See my work</a>
+    
+    <a class="btn" href="https://github.com/thatboypage">GitHub</a>
+  </div>
+  <figure class="beam-figure">
+    <svg id="beam" viewBox="0 0 1100 260" role="img" aria-label="A cantilever beam clamped on the left, vibrating in one of its bending modes, with nine sensors along it.">
+      <line x1="60" y1="40" x2="60" y2="220" class="wall"/><line x1="40" y1="52" x2="60" y2="38" class="wall"/><line x1="40" y1="68" x2="60" y2="54" class="wall"/><line x1="40" y1="84" x2="60" y2="70" class="wall"/><line x1="40" y1="100" x2="60" y2="86" class="wall"/><line x1="40" y1="116" x2="60" y2="102" class="wall"/><line x1="40" y1="132" x2="60" y2="118" class="wall"/><line x1="40" y1="148" x2="60" y2="134" class="wall"/><line x1="40" y1="164" x2="60" y2="150" class="wall"/><line x1="40" y1="180" x2="60" y2="166" class="wall"/><line x1="40" y1="196" x2="60" y2="182" class="wall"/><line x1="40" y1="212" x2="60" y2="198" class="wall"/>
+      <line x1="60" y1="130" x2="1060" y2="130" class="rest"/>
+      <path class="shape" d="M60 130 L1060 130"/>
+      <circle class="sensor" r="7" cx="171.1" cy="130"></circle><circle class="sensor" r="7" cx="282.2" cy="130"></circle><circle class="sensor" r="7" cx="393.3" cy="130"></circle><circle class="sensor" r="7" cx="504.4" cy="130"></circle><circle class="sensor" r="7" cx="615.6" cy="130"></circle><circle class="sensor" r="7" cx="726.7" cy="130"></circle><circle class="sensor" r="7" cx="837.8" cy="130"></circle><circle class="sensor" r="7" cx="948.9" cy="130"></circle><circle class="sensor" r="7" cx="1060.0" cy="130"></circle>
+    </svg>
+    <figcaption class="beam-caption">
+      <span class="mode-picker" role="group" aria-label="Choose a vibration mode">
+        <button type="button" aria-pressed="true">Mode 1</button><button type="button" aria-pressed="false">Mode 2</button><button type="button" aria-pressed="false">Mode 3</button>
+      </span>
+      <span>BeamTwin's 1 m steel cantilever and its nine virtual sensors. My finite element model puts this mode at <strong id="mode-label">8.15 Hz</strong>.</span>
+    </figcaption>
+  </figure>
+</div>
+
+<section id="work"><div class="wrap">
+  <h2>Selected work</h2>
+  <p class="section-intro">Each project has public code, a held-out test, a baseline to beat, and a written list of what it does not do yet.</p>
+  <ul class="work"><li><a class="row" href="projects/beamtwin.html">
+  <div class="thumb"><img src="assets/fig/beam-modes.jpg" alt="" loading="lazy"></div>
+  <div><h3>BeamTwin: finding damage in a beam from how it vibrates</h3><p>Finite element model written from scratch, a physics-hybrid neural surrogate, and a Bayesian detector that locates damage from vibration readings. Deployed with a live demo.</p><p class="stack">Python, NumPy, PyTorch, FastAPI, Docker, GitHub Actions</p></div>
+  <div class="result"><strong>55×</strong><span>lower frequency error than a plain neural network</span></div>
+</a></li><li><a class="row" href="projects/filter-rul.html">
+  <div class="thumb"><img src="assets/fig/rul-comparison.jpg" alt="" loading="lazy"></div>
+  <div><h3>Remaining-life prediction when 45 of 50 filters never failed</h3><p>A physics-informed clogging model predicts remaining useful life from right-censored data, then turns its uncertainty into replace-or-wait maintenance decisions.</p><p class="stack">Python, SciPy, scikit-learn, XGBoost, survival analysis</p></div>
+  <div class="result"><strong>58%</strong><span>lower error than gradient boosting</span></div>
+</a></li><li><a class="row" href="projects/anomaly-twin.html">
+  <div class="thumb"><img src="assets/fig/cats-comparison.jpg" alt="" loading="lazy"></div>
+  <div><h3>Anomaly detection that names the root-cause sensor</h3><p>A residual-based digital twin on a 5-million-point sensor benchmark, evaluated the way an operator experiences alarms: events caught, false alarms per day, delay.</p><p class="stack">Python, NumPy, scikit-learn, system identification</p></div>
+  <div class="result"><strong>0.09</strong><span>false alarms per day, catching 80% of anomalies</span></div>
+</a></li><li><a class="row" href="projects/kw51-bridge.html">
+  <div class="thumb"><img src="assets/fig/kw51-chart.jpg" alt="" loading="lazy"></div>
+  <div><h3>Separating temperature from structural change on a real bridge</h3><p>15 months of measured data from the KW51 steel railway bridge in Leuven. A temperature model learned before a retrofit reveals what the retrofit actually changed.</p><p class="stack">Python, NumPy, pandas, SciPy, blocked cross-validation, bootstrap</p></div>
+  <div class="result"><strong>98%</strong><span>of post-retrofit days flagged for mode 13, up from 0%</span></div>
+</a></li><li><a class="row" href="projects/crack-segmentation.html">
+  <div class="thumb"><img src="assets/fig/crack-resolution.jpg" alt="" loading="lazy"></div>
+  <div><h3>Measuring crack width from photos, and a leak in a public benchmark</h3><p>A U-Net finds cracks in concrete photos and turns them into length and width. The engineering question: under what photo conditions is the width reliable enough for inspection?</p><p class="stack">Python, PyTorch, segmentation-models-pytorch, OpenCV, scikit-image</p></div>
+  <div class="result"><strong>79%</strong><span>of a benchmark&#x27;s test photos leaked into training</span></div>
+</a></li></ul>
+</div></section>
+
+<section id="about"><div class="wrap about-grid">
+  <div class="prose">
+    <h2>About</h2>
+    <p>I studied mechanical engineering at the University of Ilorin, and I came to machine learning through the machines: how they wear, vibrate and fail. I founded Berm Engineering and Consulting in 2026 to apply ML to structural inspection and predictive maintenance, and I lead its in-house research.</p>
+    <p>My work sits where physics meets data. I build models that encode what engineers already know, test them against honest baselines, and turn their predictions into decisions someone can act on. The same methods carry over to fraud detection, risk and forecasting in any industry.</p>
+    <div class="skills">
+      <div><h3>Modelling</h3><p>Physics-informed and surrogate models, finite element analysis, Bayesian inference, survival analysis, anomaly detection, time series, Kalman filtering.</p></div>
+      <div><h3>ML and software</h3><p>Python, PyTorch, TensorFlow, scikit-learn, XGBoost, SciPy, pandas, SQL, MATLAB, pytest, Git.</p></div>
+      <div><h3>Deployment</h3><p>FastAPI, Docker, GitHub Actions, Streamlit, Render.</p></div>
+      <div><h3>Learning now</h3><p>MLflow, cloud deployment on AWS and GCP, and LLM systems with retrieval-augmented generation.</p></div>
+    </div>
+  </div>
+  <div class="photo"><img src="assets/richard.jpg" alt="Portrait of Richard Olanite" width="300" height="375" onload="this.closest('.about-grid').classList.add('has-photo')"></div>
+</div></section>
+
+<section id="experience"><div class="wrap">
+  <h2>Experience</h2>
+  <ol class="timeline">
+    <li class="now"><span class="when">Jan 2026 to now</span><h3>Founder and Principal Engineer, Berm Engineering and Consulting Ltd, Lagos</h3><p>Founded and registered an engineering consultancy for ML in structural inspection, defect detection and predictive maintenance. Delivered eight ML projects for business and individual clients, and lead the in-house R&amp;D shown above.</p></li>
+    <li><span class="when">Feb 2025 to Apr 2026</span><h3>Machine Learning Engineer, Digital Fortress Institute, Lagos</h3><p>Built a Streamlit app covering the full ML workflow for machine-failure data, applied supervised, unsupervised and reinforcement learning to predictive maintenance and process control, and taught ML tutorials to junior team members.</p></li>
+    <li><span class="when">Oct 2018 to Aug 2024</span><h3>B.Eng. Mechanical Engineering, University of Ilorin</h3><p>Second Class Honours (Upper Division). Final-year project: designed and built a 10-tonne hydraulic press.</p></li>
+    <li><span class="when">Apr 2022 to Nov 2022</span><h3>Mechanical Engineering Intern, University of Ilorin Central Workshop</h3><p>Maintained and repaired lathes, milling and drilling machines, and machined precision parts to GD&amp;T specifications.</p></li>
+  </ol>
+</div></section>
+
+<section id="writing"><div class="wrap">
+  <h2>Papers and posts</h2>
+  <ul class="posts">
+    <li><a href="https://www.linkedin.com/in/richardolanite/recent-activity/all/">A prediction is not a decision</a><p>How I found my own predictive-maintenance model was answering the wrong question, and what rebuilding it taught me. LinkedIn post.</p></li>
+    <li><a href="https://www.linkedin.com/in/richardolanite/recent-activity/all/">Strong metrics, wrong behaviour</a><p>Target leakage and censored data in predictive maintenance. LinkedIn post.</p></li>
+    <li><a href="https://doi.org/10.1007/s12008-026-02555-z">Numerical simulation of the compositions, processing, materials, and properties of automotive brake pad production</a><p>Co-author. International Journal on Interactive Design and Manufacturing, Springer, 2026.</p></li>
+    <li><span>Characterization of oil from trunk fish (Mormyrus rume)</span><p>Co-author. Journal of Engineering Research and Applied Science, 15(1), 2026.</p></li>
+  </ul>
+</div></section>
+
+<section id="contact" class="contact"><div class="wrap">
+  <h2>Contact</h2>
+  <p class="section-intro">I'm open to machine learning engineer and data scientist roles, remote or on-site, in any industry.</p>
+  <p class="big"><a href="mailto:richardolaniteolamide@gmail.com">richardolaniteolamide@gmail.com</a></p>
+  <p><a href="https://www.linkedin.com/in/richardolanite">LinkedIn</a> &nbsp; <a href="https://github.com/thatboypage">GitHub</a></p>
+</div></section>
+</main>
+<footer class="site-foot"><div class="wrap">
+  Richard Olamide Olanite, Lagos, Nigeria. Code for every project is public on <a href="https://github.com/thatboypage">GitHub</a>.
+</div></footer>
+<script src="js/beam.js"></script>
+</body>
+</html>
