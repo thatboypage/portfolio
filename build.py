@@ -23,7 +23,7 @@ HEAD = """<!doctype html>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,600..800&family=IBM+Plex+Sans:wght@400;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="{base}css/style.css">
+<link rel="stylesheet" href="{base}css/style.css?v=4">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M4 6v20M4 16 C12 16 20 14 28 8' stroke='%2318232c' stroke-width='3' fill='none' stroke-linecap='round'/%3E%3C/svg%3E">
 </head>
 <body>
@@ -366,7 +366,7 @@ def index_page():
 </div></section>
 </main>
 """
-    html += FOOT.format(gh=GH, script='<script src="js/beam.js"></script>')
+    html += FOOT.format(gh=GH, script='<script src="js/beam.js?v=4"></script>')
     (ROOT / "index.html").write_text(html)
 
 if __name__ == "__main__":
