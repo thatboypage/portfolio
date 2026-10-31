@@ -40,7 +40,7 @@ a:hover { color: var(--amber-ink); }
 
 /* Type scale (1.25) */
 h1, h2, h3 { font-family: var(--display); line-height: 1.1; letter-spacing: -0.015em; margin: 0; }
-h1 { font-size: clamp(2.6rem, 6.4vw, 4.9rem); font-weight: 800; font-stretch: 115%; letter-spacing: -0.03em; }
+h1 { font-size: clamp(2.4rem, 5.4vw, 4.2rem); font-weight: 800; font-stretch: 108%; letter-spacing: -0.03em; }
 h2 { font-size: clamp(1.6rem, 3vw, 2.15rem); font-weight: 700; font-stretch: 108%; margin-bottom: 0.6em; }
 h3 { font-size: 1.3rem; font-weight: 700; }
 p { margin: 0 0 1em; }
@@ -48,7 +48,7 @@ p { margin: 0 0 1em; }
 /* Hero */
 .hero { padding-top: 48px; padding-bottom: 24px; }
 .hero-name { font: 700 clamp(1.5rem, 2.8vw, 2rem)/1.2 var(--display); font-stretch: 110%; margin: 0 0 18px; color: var(--ink); }
-.hero h1 { max-width: 14ch; }
+.hero h1 { max-width: none; }
 .hero-top { display: grid; grid-template-columns: 1fr 340px; gap: 56px; align-items: end; }
 .portrait { width: 100%; height: auto; border: 1px solid var(--rule); }
 @media (max-width: 860px) { .hero-top { grid-template-columns: 1fr; } .portrait { max-width: 280px; order: -1; } }
