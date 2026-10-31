@@ -33,7 +33,7 @@ a:hover { color: var(--amber-ink); }
 /* Header */
 .site-head { padding: 22px 0; }
 .site-head .wrap { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; flex-wrap: wrap; }
-.wordmark { font: 700 1.05rem/1 var(--display); font-stretch: 112%; text-decoration: none; letter-spacing: -0.01em; }
+.wordmark { font: 700 1.2rem/1 var(--display); font-stretch: 112%; text-decoration: none; letter-spacing: -0.01em; }
 .site-nav { display: flex; gap: 22px; flex-wrap: wrap; }
 .site-nav a { text-decoration: none; color: var(--ink-2); font-size: 0.95rem; }
 .site-nav a:hover { color: var(--ink); }
@@ -47,7 +47,11 @@ p { margin: 0 0 1em; }
 
 /* Hero */
 .hero { padding-top: 48px; padding-bottom: 24px; }
+.hero-name { font: 700 clamp(1.5rem, 2.8vw, 2rem)/1.2 var(--display); font-stretch: 110%; margin: 0 0 18px; color: var(--ink); }
 .hero h1 { max-width: 14ch; }
+.hero-top { display: grid; grid-template-columns: 1fr 340px; gap: 56px; align-items: end; }
+.portrait { width: 100%; height: auto; border: 1px solid var(--rule); }
+@media (max-width: 860px) { .hero-top { grid-template-columns: 1fr; } .portrait { max-width: 280px; order: -1; } }
 .hero .lede { font-size: clamp(1.15rem, 1.8vw, 1.35rem); color: var(--ink-2); max-width: 46ch; margin-top: 22px; }
 .hero .actions { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 26px; }
 .btn { display: inline-block; padding: 11px 18px; border: 2px solid var(--ink); text-decoration: none; font-weight: 600; font-size: 0.97rem; border-radius: 3px; }

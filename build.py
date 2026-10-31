@@ -28,7 +28,7 @@ HEAD = """<!doctype html>
 </head>
 <body>
 <header class="site-head"><div class="wrap">
-  <a class="wordmark" href="{base}index.html">Richard Olanite</a>
+  {wordmark}
   <nav class="site-nav" aria-label="Main">
     <a href="{base}index.html#work">Work</a>
     <a href="{base}index.html#about">About</a>
@@ -253,7 +253,7 @@ def case_page(p, nxt):
     figs = "".join(f'<figure class="plot"><img src="{base}assets/fig/{f}" alt="{escape(c)}" loading="lazy"><figcaption>{escape(c)}</figcaption></figure>' for f, c in p["figures"])
     lim = "".join(f"<li>{escape(x)}</li>" for x in p["limits"])
     links = "".join(f'<a class="btn{" primary" if i == 0 else ""}" href="{u}">{escape(t)}</a>' for i, (t, u) in enumerate(p["links"]))
-    html = HEAD.format(title=f"{p['short']} | Richard Olanite", desc=escape(p["summary"]), base=base, cvnav=cvnav(base))
+    html = HEAD.format(title=f"{p['short']} | Richard Olamide Olanite", desc=escape(p["summary"]), base=base, cvnav=cvnav(base), wordmark=f'<a class="wordmark" href="{base}index.html">Richard Olamide Olanite</a>')
     html += f"""<main class="case"><div class="wrap">
 <div class="case-head">
   <a class="back" href="{base}index.html#work">Back to all work</a>
@@ -284,11 +284,14 @@ def index_page():
 </a></li>"""
     sensors = "".join('<circle class="sensor" r="7" cx="{:.1f}" cy="130"></circle>'.format(60 + (i + 1) / 9 * 1000) for i in range(9))
     hatch = "".join(f'<line x1="40" y1="{y}" x2="60" y2="{y-14}" class="wall"/>' for y in range(52, 222, 16))
-    html = HEAD.format(title="Richard Olanite | Machine learning engineer for physical systems",
+    html = HEAD.format(title="Richard Olamide Olanite | Machine learning engineer",
                        desc="Machine learning engineer and mechanical engineer. Physics-informed ML for predictive maintenance, anomaly detection and structural health monitoring.",
-                       base="", cvnav=cvnav(""))
+                       base="", cvnav=cvnav(""), wordmark="<span></span>")
     html += f"""<main>
 <div class="wrap hero">
+ <div class="hero-top">
+ <div>
+  <p class="hero-name">Richard Olamide Olanite</p>
   <h1>I build models that understand the machines they monitor.</h1>
   <p class="lede">Machine learning engineer and mechanical engineer in Lagos. I combine physics with ML for predictive maintenance, anomaly detection and structural health monitoring, and I report every result with its baseline and its limits.</p>
   <div class="actions">
@@ -296,6 +299,9 @@ def index_page():
     {cv_btn}
     <a class="btn" href="{GH}">GitHub</a>
   </div>
+ </div>
+  <img class="portrait" src="assets/richard.jpg" alt="Portrait of Richard Olamide Olanite" width="600" height="750">
+ </div>
   <figure class="beam-figure">
     <svg id="beam" viewBox="0 0 1100 260" role="img" aria-label="A cantilever beam clamped on the left, vibrating in one of its bending modes, with nine sensors along it.">
       <line x1="60" y1="40" x2="60" y2="220" class="wall"/>{hatch}
@@ -330,13 +336,12 @@ def index_page():
       <div><h3>Learning now</h3><p>MLflow, cloud deployment on AWS and GCP, and LLM systems with retrieval-augmented generation.</p></div>
     </div>
   </div>
-  <div class="photo"><img src="assets/richard.jpg" alt="Portrait of Richard Olanite" width="300" height="375" onload="this.closest('.about-grid').classList.add('has-photo')"></div>
 </div></section>
 
 <section id="experience"><div class="wrap">
   <h2>Experience</h2>
   <ol class="timeline">
-    <li class="now"><span class="when">Jan 2026 to now</span><h3>Founder and Principal Engineer, Berm Engineering and Consulting Ltd, Lagos</h3><p>Founded and registered an engineering consultancy for ML in structural inspection, defect detection and predictive maintenance. Delivered eight ML projects for business and individual clients, and lead the in-house R&amp;D shown above.</p></li>
+    <li class="now"><span class="when">Jan 2026 to now</span><h3>Founder and Principal Engineer, Berm Engineering and Consulting Ltd, Lagos</h3><p>Founded and registered an engineering consultancy for ML in structural inspection, defect detection and predictive maintenance. Delivered machine-learning projects for business and individual clients, and lead the in-house R&amp;D shown above.</p></li>
     <li><span class="when">Feb 2025 to Apr 2026</span><h3>Machine Learning Engineer, Digital Fortress Institute, Lagos</h3><p>Built a Streamlit app covering the full ML workflow for machine-failure data, applied supervised, unsupervised and reinforcement learning to predictive maintenance and process control, and taught ML tutorials to junior team members.</p></li>
     <li><span class="when">Oct 2018 to Aug 2024</span><h3>B.Eng. Mechanical Engineering, University of Ilorin</h3><p>Second Class Honours (Upper Division). Final-year project: designed and built a 10-tonne hydraulic press.</p></li>
     <li><span class="when">Apr 2022 to Nov 2022</span><h3>Mechanical Engineering Intern, University of Ilorin Central Workshop</h3><p>Maintained and repaired lathes, milling and drilling machines, and machined precision parts to GD&amp;T specifications.</p></li>
