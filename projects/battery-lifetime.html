@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Battery lifetime | Richard Olamide Olanite</title>
+<meta name="description" content="Early prediction of lithium-ion cell lifetime with prediction intervals that hold on a batch tested a year later, turned into a rule for stopping lifetime tests early. Plus the physics behind the early warning signal.">
+<meta property="og:title" content="Battery lifetime | Richard Olamide Olanite">
+<meta property="og:description" content="Early prediction of lithium-ion cell lifetime with prediction intervals that hold on a batch tested a year later, turned into a rule for stopping lifetime tests early. Plus the physics behind the early warning signal.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,600..800&family=IBM+Plex+Sans:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/style.css?v=5">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M4 6v20M4 16 C12 16 20 14 28 8' stroke='%2318232c' stroke-width='3' fill='none' stroke-linecap='round'/%3E%3C/svg%3E">
+</head>
+<body>
+<header class="site-head"><div class="wrap">
+  <a class="wordmark" href="../index.html">Richard Olamide Olanite</a>
+  <nav class="site-nav" aria-label="Main">
+    <a href="../index.html#work">Work</a>
+    <a href="../index.html#about">About</a>
+    <a href="../index.html#experience">Experience</a>
+    <a href="../index.html#writing">Writing</a>
+    <a href="../index.html#contact">Contact</a>
+    <a href="../assets/Richard_Olanite_CV.pdf">CV (PDF)</a>
+  </nav>
+</div></header>
+<main class="case"><div class="wrap">
+<div class="case-head">
+  <a class="back" href="../index.html#work">Back to all work</a>
+  <h1>Battery lifetime from the first 100 cycles, with intervals you can act on</h1>
+  <p class="lede">Testing a battery to the end of its life takes months. A model that sees only the first 100 cycles can predict lifetime, but to stop a test early an engineer needs to know how far to trust each prediction, including on cells made a year later.</p>
+  <div class="facts"><div><strong>39 of 43</strong><span>test cells inside their 90% interval</span></div><div><strong>35 of 40</strong><span>inside on a batch cycled a year later</span></div><div><strong>53 of 83</strong><span>tests stopped at cycle 100, 1 wrong call</span></div><div><strong>4.9 mV</strong><span>median early voltage sag, not explained by resistance</span></div></div>
+  <div class="links"><a class="btn primary" href="https://github.com/thatboypage/battery-lifetime-early-prediction">Code on GitHub</a></div>
+</div>
+<section class="prose"><h2>The problem</h2><p>124 commercial lithium-ion cells (LFP/graphite) were fast-charged under 72 different protocols and cycled until they lost 20% of their capacity, which took between 148 and 2,237 cycles. Severson et al. (Nature Energy, 2019) showed the first 100 cycles already carry most of the information about lifetime.</p><p>A single predicted number is not enough to act on. I asked whether the published results reproduce from raw data, whether prediction intervals hold their stated coverage on new cells, and whether those intervals can decide when a lifetime test can safely stop.</p></section>
+<section><h2>What I did</h2><ol><li>Rebuilt the published early-life features from the raw data, chiefly the change in the discharge curve between cycles 10 and 100, and reproduced the paper&#x27;s three models. The one-feature model matches the paper exactly; the others land within a few points.</li><li>Built three kinds of 90% interval on 41 training cells: a naive error band, a Bayesian ridge interval, and a distribution-free jackknife+ interval from 41 leave-one-out refits. Checked coverage on 43 held-out cells and on a 40-cell batch cycled about a year later.</li><li>Turned the intervals into a screening rule: stop a test at cycle 100 only if the whole interval is clearly above or below the required lifetime; otherwise keep testing. Compared it with trusting the point prediction alone.</li><li>Tested what the early signal is physically: compared discharge curves at equal charge, checked against independently measured resistance and temperature, and fitted a Butler–Volmer kinetic model. Added a diffusion-induced stress model of graphite particles for each charging protocol.</li></ol></section>
+<section><h2>Results</h2><figure class="plot"><img src="../assets/fig/bat-intervals.jpg" alt="Predicted vs actual lifetime with 90% jackknife+ intervals on both test batches. 39 of 43 and 35 of 40 true lifetimes fall inside." loading="lazy"><figcaption>Predicted vs actual lifetime with 90% jackknife+ intervals on both test batches. 39 of 43 and 35 of 40 true lifetimes fall inside.</figcaption></figure><figure class="plot"><img src="../assets/fig/bat-decision.jpg" alt="Screening at 800 cycles: tests stop at cycle 100 only when the interval is clear of the requirement (green). 53 of 83 stop, with one wrong call (red)." loading="lazy"><figcaption>Screening at 800 cycles: tests stop at cycle 100 only when the interval is clear of the requirement (green). 53 of 83 stop, with one wrong call (red).</figcaption></figure><figure class="plot"><img src="../assets/fig/bat-voltage.jpg" alt="The early warning sign is a voltage sag of a few millivolts that grows towards the end of discharge, and it is far larger than resistance explains." loading="lazy"><figcaption>The early warning sign is a voltage sag of a few millivolts that grows towards the end of discharge, and it is far larger than resistance explains.</figcaption></figure><div class="table-scroll"><table><thead><tr><th scope="col">Requirement</th><th class="num" scope="col">Tests stopped at cycle 100</th><th class="num" scope="col">Wrong calls</th><th class="num" scope="col">Test cycles saved</th><th class="num" scope="col">Point rule: wrong calls</th></tr></thead><tbody><tr><td>600 cycles</td><td class="num">57 (69%)</td><td class="num">0</td><td class="num">72%</td><td class="num">5 of 83</td></tr><tr><td>800 cycles</td><td class="num">53 (64%)</td><td class="num">1</td><td class="num">58%</td><td class="num">4 of 83</td></tr><tr><td>1,000 cycles</td><td class="num">48 (58%)</td><td class="num">0</td><td class="num">48%</td><td class="num">8 of 83</td></tr></tbody></table></div><p class="prose" style="color:var(--ink-2);font-size:.92rem;margin-top:10px">Interval rule vs point rule on all 83 test cells. The point rule stops every test but gets 5 to 10% of cells wrong.</p></section>
+<section><h2>Limitations</h2><ul><li>One chemistry and one lab: all cells are the same LFP/graphite type cycled at 30 °C. Nothing shows the intervals transfer to other chemistries or usage.</li><li>Small test sets: with 40 to 43 cells, coverage is uncertain by about ±5 percentage points, and the batch-shift effect is suggestive rather than proven.</li><li>Jackknife+ guarantees assume new cells resemble the training cells. The later batch breaks that, which is why it is tested separately, and there is no guarantee for future batches.</li><li>The physical models are deliberately simple and cannot tell apart two explanations for the sag; low-rate diagnostic cycles would be needed. This is a reproduction and extension of Severson et al.&#x27;s data and features, not a new dataset.</li></ul></section>
+<div class="next"><a href="filter-rul.html">Next project: Filter remaining life</a></div>
+</div></main>
+<footer class="site-foot"><div class="wrap">
+  Richard Olamide Olanite, Lagos, Nigeria. Code for every project is public on <a href="https://github.com/thatboypage">GitHub</a>.
+</div></footer>
+
+</body>
+</html>

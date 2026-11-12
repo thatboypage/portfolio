@@ -23,7 +23,7 @@ HEAD = """<!doctype html>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,600..800&family=IBM+Plex+Sans:wght@400;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="{base}css/style.css?v=4">
+<link rel="stylesheet" href="{base}css/style.css?v=5">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M4 6v20M4 16 C12 16 20 14 28 8' stroke='%2318232c' stroke-width='3' fill='none' stroke-linecap='round'/%3E%3C/svg%3E">
 </head>
 <body>
@@ -89,6 +89,45 @@ PROJECTS = [
       "The surrogate is only valid inside its training ranges (0.5–2 m long, metals, up to 50% stiffness loss).",
     ],
     links=[("Code on GitHub", f"{GH}/beamtwin"), ("Live demo", "https://beamtwin.onrender.com")],
+  ),
+  dict(
+    slug="battery-lifetime",
+    title="Battery lifetime from the first 100 cycles, with intervals you can act on",
+    short="Battery lifetime",
+    row_title="Predicting battery lifetime from the first 100 cycles, and when to stop a test",
+    summary="Early prediction of lithium-ion cell lifetime with prediction intervals that hold on a batch tested a year later, turned into a rule for stopping lifetime tests early. Plus the physics behind the early warning signal.",
+    stack="Python, NumPy, SciPy, scikit-learn (elastic net, Bayesian ridge), jackknife+ intervals",
+    stat="53 of 83", stat_label="lifetime tests stopped at cycle 100, with 1 wrong call",
+    thumb="bat-decision.jpg",
+    lede="Testing a battery to the end of its life takes months. A model that sees only the first 100 cycles can predict lifetime, but to stop a test early an engineer needs to know how far to trust each prediction, including on cells made a year later.",
+    facts=[("39 of 43","test cells inside their 90% interval"),("35 of 40","inside on a batch cycled a year later"),("53 of 83","tests stopped at cycle 100, 1 wrong call"),("4.9 mV","median early voltage sag, not explained by resistance")],
+    problem=[
+      "124 commercial lithium-ion cells (LFP/graphite) were fast-charged under 72 different protocols and cycled until they lost 20% of their capacity, which took between 148 and 2,237 cycles. Severson et al. (Nature Energy, 2019) showed the first 100 cycles already carry most of the information about lifetime.",
+      "A single predicted number is not enough to act on. I asked whether the published results reproduce from raw data, whether prediction intervals hold their stated coverage on new cells, and whether those intervals can decide when a lifetime test can safely stop.",
+    ],
+    approach=[
+      "Rebuilt the published early-life features from the raw data, chiefly the change in the discharge curve between cycles 10 and 100, and reproduced the paper's three models. The one-feature model matches the paper exactly; the others land within a few points.",
+      "Built three kinds of 90% interval on 41 training cells: a naive error band, a Bayesian ridge interval, and a distribution-free jackknife+ interval from 41 leave-one-out refits. Checked coverage on 43 held-out cells and on a 40-cell batch cycled about a year later.",
+      "Turned the intervals into a screening rule: stop a test at cycle 100 only if the whole interval is clearly above or below the required lifetime; otherwise keep testing. Compared it with trusting the point prediction alone.",
+      "Tested what the early signal is physically: compared discharge curves at equal charge, checked against independently measured resistance and temperature, and fitted a Butler–Volmer kinetic model. Added a diffusion-induced stress model of graphite particles for each charging protocol.",
+    ],
+    figures=[
+      ("bat-intervals.jpg","Predicted vs actual lifetime with 90% jackknife+ intervals on both test batches. 39 of 43 and 35 of 40 true lifetimes fall inside."),
+      ("bat-decision.jpg","Screening at 800 cycles: tests stop at cycle 100 only when the interval is clear of the requirement (green). 53 of 83 stop, with one wrong call (red)."),
+      ("bat-voltage.jpg","The early warning sign is a voltage sag of a few millivolts that grows towards the end of discharge, and it is far larger than resistance explains."),
+    ],
+    table=dict(
+      head=["Requirement","Tests stopped at cycle 100","Wrong calls","Test cycles saved","Point rule: wrong calls"],
+      rows=[["600 cycles","57 (69%)","0","72%","5 of 83"],["800 cycles","53 (64%)","1","58%","4 of 83"],["1,000 cycles","48 (58%)","0","48%","8 of 83"]],
+      best=None, caption="Interval rule vs point rule on all 83 test cells. The point rule stops every test but gets 5 to 10% of cells wrong."),
+    table2=None,
+    limits=[
+      "One chemistry and one lab: all cells are the same LFP/graphite type cycled at 30 °C. Nothing shows the intervals transfer to other chemistries or usage.",
+      "Small test sets: with 40 to 43 cells, coverage is uncertain by about ±5 percentage points, and the batch-shift effect is suggestive rather than proven.",
+      "Jackknife+ guarantees assume new cells resemble the training cells. The later batch breaks that, which is why it is tested separately, and there is no guarantee for future batches.",
+      "The physical models are deliberately simple and cannot tell apart two explanations for the sag; low-rate diagnostic cycles would be needed. This is a reproduction and extension of Severson et al.'s data and features, not a new dataset.",
+    ],
+    links=[("Code on GitHub", f"{GH}/battery-lifetime-early-prediction")],
   ),
   dict(
     slug="filter-rul",
@@ -168,15 +207,15 @@ PROJECTS = [
   ),
   dict(
     slug="kw51-bridge",
-    title="Separating temperature from structural change on a real railway bridge",
+    title="Separating temperature from structural change on a real railway bridge, and what the repair changed",
     short="KW51 railway bridge",
     row_title="Separating temperature from structural change on a real bridge",
-    summary="15 months of measured data from the KW51 steel railway bridge in Leuven. A temperature model learned before a retrofit reveals what the retrofit actually changed.",
-    stack="Python, NumPy, pandas, SciPy, blocked cross-validation, bootstrap",
+    summary="15 months of measured data from the KW51 steel railway bridge in Leuven. A temperature model learned before a retrofit reveals what the retrofit changed, a finite element model explains it structurally, and a fatigue check shows why the damage was local.",
+    stack="Python, NumPy, pandas, SciPy, finite element modelling, rainflow fatigue analysis",
     stat="98%", stat_label="of post-retrofit days flagged for mode 13, up from 0%",
     thumb="kw51-chart.jpg",
     lede="Temperature moves a bridge's natural frequencies as much as damage or repair does. Before anyone can say what a repair did, temperature has to be taken out.",
-    facts=[("15 months","of hourly measured data"),("+2.1%","retrofit effect on mode 6, at fixed temperature"),("½","alarm band width for three of five modes"),("98%","post-retrofit days flagged (was 0%)")],
+    facts=[("98%","post-retrofit days flagged for mode 13 (was 0%)"),("+2.1%","retrofit effect on mode 6, at fixed temperature"),("7–8%","stiffer diagonal connections, from the FE model"),("4.5","local stress factor needed to explain the fatigue damage")],
     problem=[
       "KW51 is a steel bowstring arch railway bridge between Leuven and Brussels, monitored by KU Leuven from 2018 to 2020. Damage was found at its connections, and the bridge was strengthened in 2019.",
       "Steel softens as it warms and stiffens sharply when it freezes, so the raw frequencies swing with the seasons. On a simple alarm chart, that swing hides the retrofit entirely for some modes.",
@@ -186,18 +225,28 @@ PROJECTS = [
       "For each mode, modelled frequency as a linear function of temperature plus an extra stiffening term below a freezing knot. The model and knot were chosen by blocked cross-validation on the pre-retrofit months only, so nothing after the retrofit influenced the choice.",
       "Applied the pre-retrofit model unchanged during and after the works. The mean post-retrofit residual is the retrofit's effect at a fixed temperature, with bootstrap intervals.",
       "Compared alarm charts on raw and temperature-compensated frequencies.",
+      "Built an in-plane finite element model of the arch, deck girder and 16 diagonals, matched its modes to the measured mode shapes (MAC 0.96–1.00), and fitted two parameters to the measured changes: diagonal connection stiffness and added steel.",
+      "Checked the diagonals against Eurocode fatigue rules (EN 1993-1-9) from strain-gauge records of train passages: rainflow cycle counting, S-N curves and Miner's rule.",
     ],
     figures=[
       ("kw51-temperature.jpg","Frequency against steel deck temperature for modes 6 and 13. Frequencies fall as the steel warms and jump below about 1 °C; the retrofit shifts the whole curve."),
       ("kw51-chart.jpg","Alarm chart for mode 13. Raw frequencies never flag the retrofit; compensated ones flag 98% of post-retrofit days."),
+      ("kw51-fe.jpg","Measured frequency changes vs the finite element model. Stiffer diagonal connections explain the rise of the higher modes; only added steel explains the drop in mode 5."),
+      ("kw51-fatigue.jpg","Diagonal stresses during a train passage and against Eurocode fatigue curves. Nominal stresses stay below the cut-off, so the damage must come from local stress at the connections."),
     ],
-    table=None, table2=None,
+    table=dict(
+      head=["Mode","Measured change","Model: stiffer diagonals + added steel","Model: stiffer diagonals only"],
+      rows=[["5 (1st symmetric)","−0.29%","−0.27%","+0.22%"],["6","+2.11%","+2.22%","+2.22%"],["10","+2.00%","+2.22%","+2.16%"],["12","+2.07%","+1.73%","+1.72%"],["13","+1.56%","+1.48%","+1.48%"]],
+      best=None, caption="The conclusion (7–8% stiffer connections, 6–13 t of added steel per side) holds across every tested variant of the unpublished geometry."),
+    table2=None,
     limits=[
       "A single freezing knot cannot follow a multi-day cold spell in January 2019; that spike causes most of the remaining false-alarm days.",
       "The confidence intervals cover measurement noise, not model error. For the noisier modes the estimate moves by up to 0.18 percentage points between comparison windows.",
+      "The finite element model is 2-D and covers vertical modes only; it cannot say how stiff the connections were in absolute terms or exactly which were strengthened.",
+      "The fatigue check uses 13 passages from one week, gauges on the members rather than at the welds, and an assumed traffic volume, so the stress factor is indicative.",
       "KW51 is an established benchmark and its authors have studied these effects. This project reproduces that kind of analysis independently and adds per-mode, temperature-adjusted effect sizes with uncertainty.",
     ],
-    links=[("Code on GitHub", f"{GH}/kw51-bridge-monitoring")],
+    links=[("Code on GitHub", f"{GH}/kw51-bridge-monitoring"), ("Medium write-up", "https://medium.com/@richardolanite/the-alarm-that-never-rang-separating-temperature-from-real-change-on-a-railway-bridge-d7d7e2989daa")],
   ),
   dict(
     slug="crack-segmentation",
@@ -351,6 +400,7 @@ def index_page():
 <section id="writing"><div class="wrap">
   <h2>Papers and posts</h2>
   <ul class="posts">
+    <li><a href="https://medium.com/@richardolanite/the-alarm-that-never-rang-separating-temperature-from-real-change-on-a-railway-bridge-d7d7e2989daa">The alarm that never rang: separating temperature from real change on a railway bridge</a><p>Plain-English write-up of the KW51 project. Medium.</p></li>
     <li><a href="{LINKEDIN}/recent-activity/all/">A prediction is not a decision</a><p>How I found my own predictive-maintenance model was answering the wrong question, and what rebuilding it taught me. LinkedIn post.</p></li>
     <li><a href="{LINKEDIN}/recent-activity/all/">Strong metrics, wrong behaviour</a><p>Target leakage and censored data in predictive maintenance. LinkedIn post.</p></li>
     <li><a href="https://doi.org/10.1007/s12008-026-02555-z">Numerical simulation of the compositions, processing, materials, and properties of automotive brake pad production</a><p>Co-author. International Journal on Interactive Design and Manufacturing, Springer, 2026.</p></li>
@@ -366,7 +416,7 @@ def index_page():
 </div></section>
 </main>
 """
-    html += FOOT.format(gh=GH, script='<script src="js/beam.js?v=4"></script>')
+    html += FOOT.format(gh=GH, script='<script src="js/beam.js?v=5"></script>')
     (ROOT / "index.html").write_text(html)
 
 if __name__ == "__main__":

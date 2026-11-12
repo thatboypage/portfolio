@@ -10,7 +10,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,600..800&family=IBM+Plex+Sans:wght@400;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/style.css?v=4">
+<link rel="stylesheet" href="css/style.css?v=5">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M4 6v20M4 16 C12 16 20 14 28 8' stroke='%2318232c' stroke-width='3' fill='none' stroke-linecap='round'/%3E%3C/svg%3E">
 </head>
 <body>
@@ -63,6 +63,10 @@
   <div class="thumb"><img src="assets/fig/beam-modes.jpg" alt="" loading="lazy"></div>
   <div><h3>BeamTwin: finding damage in a beam from how it vibrates</h3><p>Finite element model written from scratch, a physics-hybrid neural surrogate, and a Bayesian detector that locates damage from vibration readings. Deployed with a live demo.</p><p class="stack">Python, NumPy, PyTorch, FastAPI, Docker, GitHub Actions</p></div>
   <div class="result"><strong>55×</strong><span>lower frequency error than a plain neural network</span></div>
+</a></li><li><a class="row" href="projects/battery-lifetime.html">
+  <div class="thumb"><img src="assets/fig/bat-decision.jpg" alt="" loading="lazy"></div>
+  <div><h3>Predicting battery lifetime from the first 100 cycles, and when to stop a test</h3><p>Early prediction of lithium-ion cell lifetime with prediction intervals that hold on a batch tested a year later, turned into a rule for stopping lifetime tests early. Plus the physics behind the early warning signal.</p><p class="stack">Python, NumPy, SciPy, scikit-learn (elastic net, Bayesian ridge), jackknife+ intervals</p></div>
+  <div class="result"><strong>53 of 83</strong><span>lifetime tests stopped at cycle 100, with 1 wrong call</span></div>
 </a></li><li><a class="row" href="projects/filter-rul.html">
   <div class="thumb"><img src="assets/fig/rul-comparison.jpg" alt="" loading="lazy"></div>
   <div><h3>Remaining-life prediction when 45 of 50 filters never failed</h3><p>A physics-informed clogging model predicts remaining useful life from right-censored data, then turns its uncertainty into replace-or-wait maintenance decisions.</p><p class="stack">Python, SciPy, scikit-learn, XGBoost, survival analysis</p></div>
@@ -73,7 +77,7 @@
   <div class="result"><strong>0.09</strong><span>false alarms per day, catching 80% of anomalies</span></div>
 </a></li><li><a class="row" href="projects/kw51-bridge.html">
   <div class="thumb"><img src="assets/fig/kw51-chart.jpg" alt="" loading="lazy"></div>
-  <div><h3>Separating temperature from structural change on a real bridge</h3><p>15 months of measured data from the KW51 steel railway bridge in Leuven. A temperature model learned before a retrofit reveals what the retrofit actually changed.</p><p class="stack">Python, NumPy, pandas, SciPy, blocked cross-validation, bootstrap</p></div>
+  <div><h3>Separating temperature from structural change on a real bridge</h3><p>15 months of measured data from the KW51 steel railway bridge in Leuven. A temperature model learned before a retrofit reveals what the retrofit changed, a finite element model explains it structurally, and a fatigue check shows why the damage was local.</p><p class="stack">Python, NumPy, pandas, SciPy, finite element modelling, rainflow fatigue analysis</p></div>
   <div class="result"><strong>98%</strong><span>of post-retrofit days flagged for mode 13, up from 0%</span></div>
 </a></li><li><a class="row" href="projects/crack-segmentation.html">
   <div class="thumb"><img src="assets/fig/crack-resolution.jpg" alt="" loading="lazy"></div>
@@ -109,6 +113,7 @@
 <section id="writing"><div class="wrap">
   <h2>Papers and posts</h2>
   <ul class="posts">
+    <li><a href="https://medium.com/@richardolanite/the-alarm-that-never-rang-separating-temperature-from-real-change-on-a-railway-bridge-d7d7e2989daa">The alarm that never rang: separating temperature from real change on a railway bridge</a><p>Plain-English write-up of the KW51 project. Medium.</p></li>
     <li><a href="https://www.linkedin.com/in/richardolanite/recent-activity/all/">A prediction is not a decision</a><p>How I found my own predictive-maintenance model was answering the wrong question, and what rebuilding it taught me. LinkedIn post.</p></li>
     <li><a href="https://www.linkedin.com/in/richardolanite/recent-activity/all/">Strong metrics, wrong behaviour</a><p>Target leakage and censored data in predictive maintenance. LinkedIn post.</p></li>
     <li><a href="https://doi.org/10.1007/s12008-026-02555-z">Numerical simulation of the compositions, processing, materials, and properties of automotive brake pad production</a><p>Co-author. International Journal on Interactive Design and Manufacturing, Springer, 2026.</p></li>
@@ -126,6 +131,6 @@
 <footer class="site-foot"><div class="wrap">
   Richard Olamide Olanite, Lagos, Nigeria. Code for every project is public on <a href="https://github.com/thatboypage">GitHub</a>.
 </div></footer>
-<script src="js/beam.js?v=4"></script>
+<script src="js/beam.js?v=5"></script>
 </body>
 </html>
