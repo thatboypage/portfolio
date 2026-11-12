@@ -246,7 +246,7 @@ PROJECTS = [
       "The fatigue check uses 13 passages from one week, gauges on the members rather than at the welds, and an assumed traffic volume, so the stress factor is indicative.",
       "KW51 is an established benchmark and its authors have studied these effects. This project reproduces that kind of analysis independently and adds per-mode, temperature-adjusted effect sizes with uncertainty.",
     ],
-    links=[("Code on GitHub", f"{GH}/kw51-bridge-monitoring"), ("Medium write-up", "https://medium.com/@richardolanite/the-alarm-that-never-rang-separating-temperature-from-real-change-on-a-railway-bridge-d7d7e2989daa")],
+    links=[("Code on GitHub", f"{GH}/kw51-bridge-monitoring")],
   ),
   dict(
     slug="crack-segmentation",
@@ -400,7 +400,6 @@ def index_page():
 <section id="writing"><div class="wrap">
   <h2>Papers and posts</h2>
   <ul class="posts">
-    <li><a href="https://medium.com/@richardolanite/the-alarm-that-never-rang-separating-temperature-from-real-change-on-a-railway-bridge-d7d7e2989daa">The alarm that never rang: separating temperature from real change on a railway bridge</a><p>Plain-English write-up of the KW51 project. Medium.</p></li>
     <li><a href="{LINKEDIN}/recent-activity/all/">A prediction is not a decision</a><p>How I found my own predictive-maintenance model was answering the wrong question, and what rebuilding it taught me. LinkedIn post.</p></li>
     <li><a href="{LINKEDIN}/recent-activity/all/">Strong metrics, wrong behaviour</a><p>Target leakage and censored data in predictive maintenance. LinkedIn post.</p></li>
     <li><a href="https://doi.org/10.1007/s12008-026-02555-z">Numerical simulation of the compositions, processing, materials, and properties of automotive brake pad production</a><p>Co-author. International Journal on Interactive Design and Manufacturing, Springer, 2026.</p></li>
